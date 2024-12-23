@@ -9,6 +9,7 @@ import Table from './Table';
 import Light from './Light';
 import Rug from './Rug';
 import { Suspense } from 'react';
+import Model from './Model';
 
 const Loader = () => {
     const {progress} = useProgress();
@@ -28,6 +29,7 @@ const Experience = () => (
                 <OrbitControls />
                 <Center>
                     <Shelf size={1.0} />
+                    <Model />
                     <Sofa position={[-2, 0, 1]} rotation={[0, Math.PI / 2, 0]} />
                     <Sofa position={[2, 0, 1]} rotation={[0, -Math.PI / 2, 0]} />
                     <Planter position={[1.4, 0, 0]} />
