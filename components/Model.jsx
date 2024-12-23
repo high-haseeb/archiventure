@@ -15,7 +15,7 @@ function Model(props) {
   }
   useFrame(() => {
     camera.position.lerp(position, 0.1);
-    // camera.lookAt({ x: -0.655, y: 0.858, z: -0.008 });
+    // camera.lookAt({ x: -0.655, y: 0. 58, z: -0.008 });
   })
 
   return (
