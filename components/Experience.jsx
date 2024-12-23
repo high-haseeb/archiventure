@@ -1,6 +1,6 @@
 "use client";
 import { Canvas, useFrame } from '@react-three/fiber'
-import { MeshReflectorMaterial, Environment, OrbitControls, Center } from '@react-three/drei'
+import { MeshReflectorMaterial, Environment, OrbitControls, Center, useProgress } from '@react-three/drei'
 // import { easing } from 'maath'
 import { Shelf } from './Shelf';
 import Sofa from './Sofa';
@@ -8,31 +8,45 @@ import Planter from './Planter';
 import Table from './Table';
 import Light from './Light';
 import Rug from './Rug';
+import { Suspense } from 'react';
+
+const Loader = () => {
+    const {progress} = useProgress();
+    return (
+        <div className='w-screen h-screen bg-black text-white flex items-center justify-center text-4xl'>
+            adventure starting in {progress.toFixed(0)}
+        </div>
+    )
+}
 
 const Experience = () => (
-    <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0.5, 4] }} className='w-screen h-screen absolute top-0 left-0'>
-        <color attach="background" args={['#191920']} />
-        <fog attach="fog" args={['#191920', 0, 15]} />
-        <OrbitControls />
-        <Center>
-            <Shelf size={1.0} />
-            <Sofa position={[-2, 0, 1]} rotation={[0, Math.PI / 2, 0]}/>
-            <Sofa position={[2, 0, 1]} rotation={[0, -Math.PI / 2, 0]}/>
-            <Planter position={[1.4, 0, 0]} />
-            <Planter position={[-1.4, 0, 0]} />
-            <Table position={[0, 0, 1.5]}/>
-            <Rug position={[0, 0.01, 1]} scale={2.0}/>
-            <Ground />
-        </Center>
-        <Light position={[1.4, 0.8, 0.0]} scale={1.5} />
-        <Light position={[-1.4, 0.8, 0.0]} scale={1.5} />
-        <Environment preset="city" />
-    </Canvas>
+    <div className='w-screen h-screen absolute top-0 left-0'>
+        <Suspense fallback={<Loader />} >
+            <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0.5, 4] }} >
+                <color attach="background" args={['#191920']} />
+                <fog attach="fog" args={['#191920', 0, 15]} />
+                <OrbitControls />
+                <Center>
+                    <Shelf size={1.0} />
+                    <Sofa position={[-2, 0, 1]} rotation={[0, Math.PI / 2, 0]} />
+                    <Sofa position={[2, 0, 1]} rotation={[0, -Math.PI / 2, 0]} />
+                    <Planter position={[1.4, 0, 0]} />
+                    <Planter position={[-1.4, 0, 0]} />
+                    <Table position={[0, 0, 1.5]} />
+                    <Rug position={[0, 0.01, 1]} scale={2.0} />
+                    <Ground />
+                </Center>
+                <Light position={[1.4, 0.8, 0.0]} scale={1.5} />
+                <Light position={[-1.4, 0.8, 0.0]} scale={1.5} />
+                <Environment preset="city" />
+            </Canvas>
+        </Suspense>
+    </div>
 )
 const Ground = () => {
 
     useFrame(({ camera }) => {
-        camera.position.lerp({x: 0, y: 0, z: 2.0}, 0.01);
+        camera.position.lerp({ x: 0, y: 0, z: 2.0 }, 0.01);
     })
 
     return (
